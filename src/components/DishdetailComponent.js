@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle } from 'reactstrap';
+import Comment from './CommentForm';
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Button, Modal,ModalHeader,ModalBody } from 'reactstrap';
 
 class Dishdetail extends Component {
 	constructor(props) {
 		super(props);
-	}
+		this.state = {
+            isNavOpen: false,
+            isModalOpen: false
+        };
+	this.toggleModal = this.toggleModal.bind(this);
+}
+
+	toggleModal() {
+        this.setState({
+          isModalOpen: !this.state.isModalOpen
+        });
+      }
 
 	render() {
 		const selecteddish = this.props.selecteddish;
@@ -26,8 +38,8 @@ class Dishdetail extends Component {
 
 			return (
 				<div>
-					<Card>
-						<CardImg width="20%" top src={selecteddish.image} alt={selecteddish.name} />
+					<Card >
+						<CardImg   top src={selecteddish.image} alt={selecteddish.name} />
 						<CardBody>
 							<CardTitle>{selecteddish.name}</CardTitle>
 							<CardText>{selecteddish.description}</CardText>
@@ -36,7 +48,14 @@ class Dishdetail extends Component {
 					<div>
 						<h4>Comments</h4>
 						<div>{selectedcomment}</div>
+						<Button onClick={this.toggleModal}>Comment</Button>
 					</div>
+					<Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}><Comment></Comment></ModalHeader>
+                    <ModalBody>
+                    
+                    </ModalBody>
+                </Modal>
 				</div>
 			);
 		} else return <div>Not found</div>;
